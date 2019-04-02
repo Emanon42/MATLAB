@@ -10,42 +10,59 @@ function [C, idx, SSE] = my_kMeansClustering(X, k, initialCentres, maxIter)
 %   idx : N-by-1 vector (integer) of cluster index table
 %   SSE : (L+1)-by-1 vector (double) of sum-squared-errors
 
-  %% If 'maxIter' argument is not given, we set by default to 500
-  if nargin < 4
-    maxIter = 500;
-  end
-  
-  %% TO-DO
-  [n,dim] = size(X);
-  
-  C = initialCentres;
-  idx = zeros(n,1);
-  [~,idxx] = min(MySqDist(C,X),[],1);
-  Exx = norm(X - C(idxx,:)) .^ 2;
-  SSE = sum(Exx(:));
-  last_centres = 0;
-  
-  for i = 1:maxIter
-      [~,idx] = min(pdist2(C,X).^2,[],1);
-      for c = 1:k
-            if( sum(idx==c) ~= 0 )
-                C(c, :) = mean( X(idx==c,:) );
-            end
-      end
-      
-      if last_centres == C
-          break;
-      end
-      
-      Ex = norm(X - C(idx,:)) .^ 2;
-      E = sum(Ex(:));
-      SSE = [SSE, E];
-      last_centres = C;
-      
-  end
+%% If 'maxIter' argument is not given, we set by default to 500
+    if nargin < 4
+        maxIter = 500;
+    end
 
-  
-  
-  
-  
+%% TO-DO
+    [n,dim] = size(X);
+    D = zeros(k, n);
+
+    C = initialCentres;
+    idx = zeros(n,1);
+
+    [Ds,idx] = max(bsxfun(@minus,C*X',dot(C',C',1)'/2),[],1);
+    idx = idx';
+    SSE_a = 0;
+    for j = 1:n
+        SSE_a = SSE_a + norm(X(j,:) - C(idx(j),:))^2;
+    end
+    SSE = SSE_a;
+
+    prev_centres = 0;
+
+    for i = 1:maxIter
+%         for c = 1:k
+%             D(c,:) = MySqDist(X, C(c,:));
+%         end
+%        [Ds, idx] = min(D);
+        [Ds,idx] = max(bsxfun(@minus,C*X',dot(C',C',1)'/2),[],1);
+
+        idx = idx';
+        for c = 1:k
+            if( sum(idx==c) ~= 0 )
+                C(c, :) = MyMean( X(idx==c,:) );
+            end
+        end
+
+        SSE_a = 0;
+        for j = 1:n
+            SSE_a = SSE_a + norm(X(j,:) - C(idx(j),:))^2;
+        end
+        SSE = [SSE;SSE_a];
+
+
+        if prev_centres == C
+            break;
+        end
+
+        prev_centres = C;
+
+    end
+
+
+
+
+
 end

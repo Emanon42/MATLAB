@@ -8,7 +8,7 @@ function [C, idx, SSE] = task1_5(X, Ks)
     k = size(Ks,2);
     
     for i = 1:k
-        initialCentres = X(1:i,:);
+        initialCentres = X(1:Ks(i),:);
         c_file_name = strcat('task1_5_c_', num2str(Ks(i)), '.mat');
         idx_file_name = strcat('task1_5_idx_', num2str(Ks(i)), '.mat');
         sse_file_name = strcat('task1_5_sse_', num2str(Ks(i)), '.mat');
