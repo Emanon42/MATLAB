@@ -29,6 +29,7 @@ function [C, idx, SSE] = my_kMeansClustering(X, k, initialCentres, maxIter)
         SSE_a = SSE_a + norm(X(j,:) - C(idx(j),:))^2;
     end
     SSE = SSE_a;
+%     SSE = sum(Ds);
 
     prev_centres = 0;
 
@@ -50,6 +51,8 @@ function [C, idx, SSE] = my_kMeansClustering(X, k, initialCentres, maxIter)
         for j = 1:n
             SSE_a = SSE_a + norm(X(j,:) - C(idx(j),:))^2;
         end
+%         SSE_a = 0;
+%         SSE_a = sum(Ds);
         SSE = [SSE;SSE_a];
 
 

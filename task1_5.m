@@ -13,8 +13,8 @@ function [C, idx, SSE] = task1_5(X, Ks)
         idx_file_name = strcat('task1_5_idx_', num2str(Ks(i)), '.mat');
         sse_file_name = strcat('task1_5_sse_', num2str(Ks(i)), '.mat');
         [C, idx, SSE] = my_kMeansClustering(X, Ks(i), initialCentres);
-        save(['C:\MATLAB\data\',c_file_name], 'C');
-        save(['C:\MATLAB\data\',idx_file_name],'idx');
-        save(['C:\MATLAB\data\',sse_file_name],'SSE');
+        save(['/afs/inf.ed.ac.uk/user/s17/s1758009/Documents/MATLAB/data/',c_file_name], 'C');
+        save(['/afs/inf.ed.ac.uk/user/s17/s1758009/Documents/MATLAB/data/',idx_file_name],'idx');
+        save(['/afs/inf.ed.ac.uk/user/s17/s1758009/Documents/MATLAB/data/',sse_file_name],'SSE');
     end
 end
