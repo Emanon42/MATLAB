@@ -1,4 +1,4 @@
-function [Ypreds, Ms, Covs] = run_gaussian_classifiers(Xtrain, Ytrain, Xtest, epsilon)
+function [Ypreds, Ms, Covs] = run_gaussian_for_28(Xtrain, Ytrain, Xtest, epsilon)
 % Input:
 %   Xtrain : M-by-D training data matrix (double)
 %   Ytrain : M-by-1 label vector for Xtrain (uint8)
@@ -11,7 +11,7 @@ function [Ypreds, Ms, Covs] = run_gaussian_classifiers(Xtrain, Ytrain, Xtest, ep
 
 %YourCode - Bayes classification with multivariate Gaussian distributions.
 N = size(Xtest, 1);
-K = 10;
+K = max(Ytrain);
 D = size(Xtrain,2);
 prior = zeros(K,1);
 mu_hat = zeros(K, D);
@@ -24,11 +24,14 @@ end
 
 test_prob = zeros(N,K);
 for i = 1:K
-    covar = sigma_hat(i,:,:);
+    if size(Ytrain(Ytrain==i),1)~=0
+%    covar = sigma_hat(i,:,:);
 %     covar = reshape(covar(:,:), size(covar,2),size(covar,3));
 %      lik_k = mvnpdf(Xtest,mu_hat(i,:),covar);
 %     tttest = lik_k * prior(i);
-    test_prob(:,i) = gaussianMV(Xtest, mu_hat(i,:),sigma_hat(i,:,:),prior(i));
+        test_prob(:,i) = gaussianMV(Xtest, mu_hat(i,:),sigma_hat(i,:,:),prior(i));
+
+    end
 end
 
 [~, Ypreds] = max(test_prob, [], 2);
