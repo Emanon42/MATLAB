@@ -26,7 +26,7 @@ end
 YtrainOverDrive = uint8(YtrainOverDrive);
 a=1+1;
 [pred1, MMs, MCovs] = run_gaussian_for_28(Xtrain, YtrainOverDrive, Xtest, epsilon);
-Ypreds = ceil(pred1 / L);
+Ypreds = fix(pred1 / L) + 1;
 
 
 end

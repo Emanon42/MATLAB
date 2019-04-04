@@ -11,13 +11,13 @@ tic
 toc
 [cm, acc] = comp_confmat(Ytest, Ypreds);
 filename = strcat('task2_8_cm_',num2str(L),'.mat');
-%save(filename,'cm');
+save(filename,'cm');
 Ms1 = MMs(1:L,:);
 MCovs = MCovs(1:L,:,:);
 filename2 = strcat('task2_8_g',num2str(L),'_m1.mat');
 filename3 = strcat('task2_8_g',num2str(L),'_cov1.mat');
 %save(filename2,'Ms1');
-%save(filename3,'MCovs');
+save(filename3,'MCovs');
 
 disp(size(Xtest,1));
 disp(size(Xtest,1)*(1-acc));
